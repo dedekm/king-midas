@@ -4,8 +4,9 @@ update = require './update.coffee'
 
 config =
   type: Phaser.AUTO
-  width: 800
-  height: 600
+  width: 640
+  height: 480
+  pixelArt: true
   scene:
     preload: preload
     create: create
