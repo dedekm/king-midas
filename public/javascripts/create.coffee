@@ -1,28 +1,31 @@
 Hero = require './game_objects/hero.coffee'
 Enemy = require './game_objects/enemy.coffee'
+Item = require './game_objects/item.coffee'
 Inventory = require './inventory/inventory.coffee'
 
 module.exports = ->
+  @getTileAtXY = (x, y) ->
+    @walls.getTileAtWorldXY(x * @tileSize, y * @tileSize, true)
+  
   @tileSize = 32
+  @tileSizeHalf = @tileSize / 2
   @steps = 0
-  @items = []
+  @objects = []
   @inventory = new Inventory()
   
-  hero = new Hero this, 32 + 16, 32 + 16, 'clown'
+  hero = @add.custom(Hero, 1, 1, 'clown')
   hero.attack = 50
   hero.defense = 10
-  @items.push @children.add(hero)
   
-  enemy = new Enemy this, 32 * 3 + 16, 32 * 3 + 16, 'ufo'
+  enemy = @add.custom(Enemy, 3, 3, 'ufo')
   enemy.attack = 15
   enemy.defense = 5
-  @items.push @children.add(enemy)
   
-  @items.push @add.sprite(32 * 5 + 16, 32 + 16, 'ball')
-  @items.push @add.sprite(32 * 5 + 16, 32 * 3 + 16, 'ball')
-  @items.push @add.sprite(32 * 5 + 16, 32 * 8 + 16, 'eggplant')
-  @items.push @add.sprite(32 * 7 + 16, 32 * 3 + 16, 'eggplant')
-  @items.push @add.sprite(32 * 8 + 16, 32 * 3 + 16, 'melon')
+  @add.custom(Item, 5, 1, 'ball')
+  @add.custom(Item, 5, 3, 'ball')
+  @add.custom(Item, 5, 8, 'eggplant')
+  @add.custom(Item, 7, 3, 'eggplant')
+  @add.custom(Item, 8, 3, 'melon')
   
   map = @make.tilemap(key: 'map', tileWidth: 32, tileHeight: 32)
   tileset = map.addTilesetImage('tiles', null, 32, 32, 1, 2)
@@ -30,27 +33,25 @@ module.exports = ->
   
   @input.keyboard.on 'keydown', (event) ->
     newPos = {
-      x: hero.x
-      y: hero.y
+      x: hero.tileX
+      y: hero.tileY
     }
 
     switch event.key
       when 'w'
-        newPos.y -= @scene.tileSize
+        newPos.y -= 1
       when 's'
-        newPos.y += @scene.tileSize
+        newPos.y += 1
       when 'a'
-        newPos.x -= @scene.tileSize
+        newPos.x -= 1
       when 'd'
-        newPos.x += @scene.tileSize
+        newPos.x += 1
     
-    tile = @scene.walls.getTileAtWorldXY(newPos.x, newPos.y, true)
-    unless tile.index == 2
-      @scene.steps++
+    unless @scene.getTileAtXY(newPos.x, newPos.y, true).index == 2
       canMove = true
 
-      for item, i in @scene.items
-        if item.x == newPos.x && item.y == newPos.y
+      for item, i in @scene.objects
+        if item.tileX == newPos.x && item.tileY == newPos.y
           if item.type && item.type == 'enemy'
             item.health -= hero.attack - item.defense
             if item.health <= 0
@@ -61,11 +62,11 @@ module.exports = ->
             canMove = false
             break
           
-          @scene.items.splice(i, 1)
+          @scene.objects.splice(i, 1)
           @scene.inventory.add(item)
           @scene.children.bringToTop(item);
           break
 
       if canMove
-        hero.x = newPos.x
-        hero.y = newPos.y
+        @scene.steps++
+        hero.moveTo(newPos.x, newPos.y)
