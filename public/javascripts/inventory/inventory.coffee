@@ -8,7 +8,7 @@ class Inventory extends Phaser.Structs.List
   add: (item) ->
     for inventoryItem, j in @list
       if item.texture.key == inventoryItem.type
-        inventoryItem.amount++
+        inventoryItem.add(item)
         item.y = 480 - 32 / 2 - 6 * inventoryItem.amount
         item.x = (j + 1) * 32 + 32 / 2
         return inventoryItem

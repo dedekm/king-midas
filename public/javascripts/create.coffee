@@ -4,6 +4,18 @@ Item = require './game_objects/item.coffee'
 Inventory = require './inventory/inventory.coffee'
 
 module.exports = ->
+  @totalValueDirty = true
+  @totalValue = 0
+  @getTotalValue = ->
+    if @totalValueDirty
+      @totalValue = 0
+      for object in @objects
+        @totalValue += object.value if object.type == 'item'
+      for object in @inventory.list
+        @totalValue += object.value
+      @totalValueDirty = false
+    return @totalValue
+  
   @getTileAtXY = (x, y) ->
     @walls.getTileAtWorldXY(x * @tileSize, y * @tileSize, true)
   
