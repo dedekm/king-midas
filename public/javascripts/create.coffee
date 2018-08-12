@@ -4,6 +4,11 @@ Item = require './game_objects/item.coffee'
 Gold = require './game_objects/gold.coffee'
 Inventory = require './inventory/inventory.coffee'
 
+buildMap = (scene) ->
+  map = scene.make.tilemap(key: 'map', tileWidth: 32, tileHeight: 32)
+  tileset = map.addTilesetImage('tiles', null, 32, 32, 1, 2)
+  scene.walls = map.createStaticLayer(0, tileset, 0, 0)
+
 module.exports = ->
   @totalValueDirty = true
   @totalValue = 0
@@ -19,6 +24,8 @@ module.exports = ->
   
   @getTileAtXY = (x, y) ->
     @walls.getTileAtWorldXY(x * @tileSize, y * @tileSize, true)
+  
+  buildMap(@)
   
   @tileSize = 32
   @tileSizeHalf = @tileSize / 2
@@ -42,10 +49,6 @@ module.exports = ->
   @add.custom(Gold, 2, 4, 20)
   @add.custom(Gold, 3, 4, 30)
   @add.custom(Gold, 4, 4, 20)
-  
-  map = @make.tilemap(key: 'map', tileWidth: 32, tileHeight: 32)
-  tileset = map.addTilesetImage('tiles', null, 32, 32, 1, 2)
-  @walls = map.createStaticLayer(0, tileset, 0, 0)
   
   @input.keyboard.on 'keydown', (event) ->
     newPos = {
