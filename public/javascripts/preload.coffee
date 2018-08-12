@@ -1,10 +1,12 @@
 module.exports = ->
-  @load.setBaseURL('http://labs.phaser.io')
+  phaserURL = 'http://labs.phaser.io/assets'
   
-  @load.image('clown', 'assets/sprites/clown.png')
-  @load.image('ball', 'assets/sprites/blue_ball.png')
-  @load.image('eggplant', 'assets/sprites/eggplant.png')
-  @load.image('melon', 'assets/sprites/melon.png')
-  @load.image('ufo', 'assets/sprites/ufo.png')
-  @load.image('tiles', 'assets/tilemaps/tiles/drawtiles-spaced.png')
-  @load.tilemapCSV('map', 'assets/tilemaps/csv/grid.csv')
+  @load.image('clown', phaserURL + '/sprites/clown.png')
+  @load.image('ball', phaserURL + '/sprites/blue_ball.png')
+  @load.image('eggplant', phaserURL + '/sprites/eggplant.png')
+  @load.image('melon', phaserURL + '/sprites/melon.png')
+  @load.image('ufo', phaserURL + '/sprites/ufo.png')
+  @load.image('tiles', phaserURL + '/tilemaps/tiles/drawtiles-spaced.png')
+  @load.tilemapCSV('map', '/tilemaps/grid.csv')
+  
+  # @load.json('config', 'config.json');
