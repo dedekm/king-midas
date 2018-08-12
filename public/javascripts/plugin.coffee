@@ -13,7 +13,7 @@ class CustomPlugin extends Phaser.Plugins.BasePlugin
     
     custom.tileX = x
     custom.tileY = y
-    @scene.objects.push custom
+    @scene.objects.add custom
     @displayList.add custom
 
 module.exports = CustomPlugin

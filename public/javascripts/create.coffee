@@ -15,7 +15,7 @@ module.exports = ->
   @getTotalValue = ->
     if @totalValueDirty
       @totalValue = 0
-      for object in @objects
+      for object in @objects.list
         @totalValue += object.value if object.type == 'item'
       for object in @inventory.list
         @totalValue += object.value
@@ -30,12 +30,12 @@ module.exports = ->
   @tileSize = 32
   @tileSizeHalf = @tileSize / 2
   @steps = 0
-  @objects = []
+  @objects = new Phaser.Structs.List()
   @inventory = new Inventory(@)
   
-  hero = @add.custom(Hero, 1, 1, 'clown')
-  hero.attack = 50
-  hero.defense = 10
+  @hero = @add.custom(Hero, 1, 1, 'clown')
+  @hero.attack = 50
+  @hero.defense = 10
   
   enemy = @add.custom(Enemy, 3, 3, 'ufo')
   enemy.attack = 15
@@ -52,8 +52,8 @@ module.exports = ->
   
   @input.keyboard.on 'keydown', (event) ->
     newPos = {
-      x: hero.tileX
-      y: hero.tileY
+      x: @scene.hero.tileX
+      y: @scene.hero.tileY
     }
 
     switch event.key
@@ -71,22 +71,21 @@ module.exports = ->
     unless @scene.getTileAtXY(newPos.x, newPos.y, true).index == 2
       canMove = true
 
-      for item, i in @scene.objects
+      for item, i in @scene.objects.list
         if item.tileX == newPos.x && item.tileY == newPos.y
           if item.type && item.type == 'enemy'
-            item.health -= hero.attack - item.defense
+            item.health -= @scene.hero.attack - item.defense
             if item.health <= 0
-              item.die(i)
+              item.die()
             else
-              hero.health -= item.attack - hero.defense
-              console.log hero.health
+              @scene.hero.health -= item.attack - @scene.hero.defense
             canMove = false
             break
           
-          @scene.objects.splice(i, 1)
-          @scene.inventory.add(item)
+          @scene.objects.remove(item)
+          @scene.inventory.addItem(item)
           break
 
       if canMove
         @scene.steps++
-        hero.moveTo(newPos.x, newPos.y)
+        @scene.hero.moveTo(newPos.x, newPos.y)

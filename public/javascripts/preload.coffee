@@ -7,6 +7,7 @@ module.exports = ->
   @load.image('eggplant', phaserURL + '/sprites/eggplant.png')
   @load.image('melon', phaserURL + '/sprites/melon.png')
   @load.image('ufo', phaserURL + '/sprites/ufo.png')
+  @load.image('zone', phaserURL + '/sprites/32x32.png')
   @load.image('tiles', phaserURL + '/tilemaps/tiles/drawtiles-spaced.png')
   @load.tilemapCSV('map', '/tilemaps/grid.csv')
   

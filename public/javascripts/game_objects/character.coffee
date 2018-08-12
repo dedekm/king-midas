@@ -1,4 +1,6 @@
-class Character extends Phaser.GameObjects.Sprite
+Object = require './object.coffee'
+
+class Character extends Object
   constructor: (scene, x, y, key, frame) ->
     super scene, x, y, key, frame
     

@@ -7,8 +7,8 @@ class Enemy extends Character
     
     @type = 'enemy'
   
-  die: (i)->
-    @scene.objects.splice(i, 1)
+  die: ->
+    @scene.objects.remove(@)
     
     items = Phaser.Utils.Array.Shuffle ['melon', 'eggplant']
     positions = [
@@ -26,7 +26,7 @@ class Enemy extends Character
     for pos in Phaser.Utils.Array.Shuffle(positions)
       unless @scene.getTileAtXY(pos.x, pos.y).index == 2
         free = true
-        for item, i in @scene.objects
+        for item, i in @scene.objects.list
           if item.tileX == pos.x && item.tileY == pos.y
             free = false
         available.push pos if free
