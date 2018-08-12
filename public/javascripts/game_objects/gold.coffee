@@ -1,4 +1,6 @@
-class Gold extends Phaser.GameObjects.Sprite
+Item = require './item.coffee'
+
+class Gold extends Item
   constructor: (scene, x, y, amount) ->
     super scene, x, y, 'coin'
     

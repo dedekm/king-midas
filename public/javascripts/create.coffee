@@ -46,10 +46,12 @@ module.exports = ->
   @add.custom(Item, 6, 3, 'green_ball')
   @add.custom(Item, 5, 8, 'eggplant')
   @add.custom(Item, 7, 3, 'eggplant')
-  @add.custom(Item, 8, 3, 'melon')
   @add.custom(Gold, 2, 4, 20)
   @add.custom(Gold, 3, 4, 30)
   @add.custom(Gold, 4, 4, 20)
+  
+  grouped = @add.custom(Item, 8, 3, 'melon')
+  grouped.addItem new Item(@, 0, 0, 'melon')
   
   @input.keyboard.on 'keydown', (event) ->
     newPos = {
@@ -81,6 +83,7 @@ module.exports = ->
             else
               @scene.hero.health -= item.attack - @scene.hero.defense
             canMove = false
+            break
           else
             if @scene.inventory.addItem(item)
               @scene.objects.remove(item)
