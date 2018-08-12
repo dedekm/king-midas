@@ -1,10 +1,23 @@
+Hero = require './game_objects/hero.coffee'
+Enemy = require './game_objects/enemy.coffee'
+Inventory = require './inventory/inventory.coffee'
+
 module.exports = ->
   @tileSize = 32
   @steps = 0
   @items = []
-  @inventory = []
+  @inventory = new Inventory()
   
-  hero = @add.sprite(32 + 16, 32 + 16, 'clown')
+  hero = new Hero this, 32 + 16, 32 + 16, 'clown'
+  hero.attack = 50
+  hero.defense = 10
+  @items.push @children.add(hero)
+  
+  enemy = new Enemy this, 32 * 3 + 16, 32 * 3 + 16, 'ufo'
+  enemy.attack = 15
+  enemy.defense = 5
+  @items.push @children.add(enemy)
+  
   @items.push @add.sprite(32 * 5 + 16, 32 + 16, 'ball')
   @items.push @add.sprite(32 * 5 + 16, 32 * 3 + 16, 'ball')
   @items.push @add.sprite(32 * 5 + 16, 32 * 8 + 16, 'eggplant')
@@ -13,7 +26,7 @@ module.exports = ->
   
   map = @make.tilemap(key: 'map', tileWidth: 32, tileHeight: 32)
   tileset = map.addTilesetImage('tiles', null, 32, 32, 1, 2)
-  layer = map.createStaticLayer(0, tileset, 0, 0)
+  @walls = map.createStaticLayer(0, tileset, 0, 0)
   
   @input.keyboard.on 'keydown', (event) ->
     newPos = {
@@ -31,30 +44,28 @@ module.exports = ->
       when 'd'
         newPos.x += @scene.tileSize
     
-    tile = layer.getTileAtWorldXY(newPos.x, newPos.y, true)
+    tile = @scene.walls.getTileAtWorldXY(newPos.x, newPos.y, true)
     unless tile.index == 2
       @scene.steps++
-      hero.x = newPos.x
-      hero.y = newPos.y
+      canMove = true
 
       for item, i in @scene.items
-        if item.x == hero.x && item.y == hero.y
-          owned = false
-          for itemInInventory, j in @scene.inventory
-            if item.texture.key == itemInInventory.texture.key
-              owned = true
-
-              @scene.items.splice(i, 1)
-              # item.destroy()
-              item.y = 480 - 32 / 2 - 6
-              item.x = (j + 1) * 32 + 32 / 2
-              break
-            
-          unless owned
-            @scene.inventory.push item
-            @scene.items.splice(i, 1)
-            item.y = 480 - 32 / 2
-            item.x = @scene.inventory.length * 32 + 32 / 2
+        if item.x == newPos.x && item.y == newPos.y
+          if item.type && item.type == 'enemy'
+            item.health -= hero.attack - item.defense
+            if item.health <= 0
+              item.die(i)
+            else
+              hero.health -= item.attack - hero.defense
+              console.log hero.health
+            canMove = false
+            break
           
+          @scene.items.splice(i, 1)
+          @scene.inventory.add(item)
           @scene.children.bringToTop(item);
           break
+
+      if canMove
+        hero.x = newPos.x
+        hero.y = newPos.y
