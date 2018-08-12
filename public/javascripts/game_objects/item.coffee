@@ -3,6 +3,7 @@ class Item extends Phaser.GameObjects.Sprite
     super scene, x, y, key, frame
     
     @type = 'item'
+    @category = @texture.key
     @value = 10
 
 module.exports = Item

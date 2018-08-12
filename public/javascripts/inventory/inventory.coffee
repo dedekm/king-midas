@@ -1,20 +1,21 @@
 InventoryItem = require './inventory_item.coffee'
 
-
 class Inventory extends Phaser.Structs.List
-  constructor: ->
+  constructor: (scene)->
     super()
+    @scene = scene
+    @baseY = 480 - @scene.tileSizeHalf
+    @baseX = @scene.tileSize + @scene.tileSizeHalf
     
   add: (item) ->
+    item.destroy()
+    
     for inventoryItem, j in @list
-      if item.texture.key == inventoryItem.type
+      if item.category == inventoryItem.category
         inventoryItem.add(item)
-        item.y = 480 - 32 / 2 - 6 * inventoryItem.amount
-        item.x = (j + 1) * 32 + 32 / 2
+        
         return inventoryItem
 
-    item.y = 480 - 32 / 2 - 6
-    item.x = (j + 1) * 32 + 32 / 2
-    super(new InventoryItem(item, 1))
+    super(new InventoryItem(@, item, @length))
 
 module.exports = Inventory

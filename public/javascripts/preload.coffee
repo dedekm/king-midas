@@ -3,6 +3,7 @@ module.exports = ->
   
   @load.image('clown', phaserURL + '/sprites/clown.png')
   @load.image('ball', phaserURL + '/sprites/blue_ball.png')
+  @load.image('coin', phaserURL + '/sprites/yellow_ball.png')
   @load.image('eggplant', phaserURL + '/sprites/eggplant.png')
   @load.image('melon', phaserURL + '/sprites/melon.png')
   @load.image('ufo', phaserURL + '/sprites/ufo.png')

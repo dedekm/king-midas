@@ -1,6 +1,7 @@
 Hero = require './game_objects/hero.coffee'
 Enemy = require './game_objects/enemy.coffee'
 Item = require './game_objects/item.coffee'
+Gold = require './game_objects/gold.coffee'
 Inventory = require './inventory/inventory.coffee'
 
 module.exports = ->
@@ -23,7 +24,7 @@ module.exports = ->
   @tileSizeHalf = @tileSize / 2
   @steps = 0
   @objects = []
-  @inventory = new Inventory()
+  @inventory = new Inventory(@)
   
   hero = @add.custom(Hero, 1, 1, 'clown')
   hero.attack = 50
@@ -38,6 +39,9 @@ module.exports = ->
   @add.custom(Item, 5, 8, 'eggplant')
   @add.custom(Item, 7, 3, 'eggplant')
   @add.custom(Item, 8, 3, 'melon')
+  @add.custom(Gold, 2, 4, 20)
+  @add.custom(Gold, 3, 4, 30)
+  @add.custom(Gold, 4, 4, 20)
   
   map = @make.tilemap(key: 'map', tileWidth: 32, tileHeight: 32)
   tileset = map.addTilesetImage('tiles', null, 32, 32, 1, 2)
@@ -76,7 +80,6 @@ module.exports = ->
           
           @scene.objects.splice(i, 1)
           @scene.inventory.add(item)
-          @scene.children.bringToTop(item);
           break
 
       if canMove
