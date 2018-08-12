@@ -62,6 +62,8 @@ module.exports = ->
         newPos.x -= 1
       when 'd'
         newPos.x += 1
+      else
+        return
     
     unless @scene.getTileAtXY(newPos.x, newPos.y, true).index == 2
       canMove = true
