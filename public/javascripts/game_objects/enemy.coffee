@@ -1,4 +1,5 @@
 Character = require './character.coffee'
+Item = require './item.coffee'
 
 class Enemy extends Character
   constructor: (scene, x, y, key, frame) ->
@@ -7,35 +8,35 @@ class Enemy extends Character
     @type = 'enemy'
   
   die: (i)->
-    @scene.items.splice(i, 1)
+    @scene.objects.splice(i, 1)
     
-    items = ['melon', 'eggplant']
+    items = Phaser.Utils.Array.Shuffle ['melon', 'eggplant']
     positions = [
-      { x: @x, y: @y },
-      { x: @x + 32, y: @y },
-      { x: @x - 32, y: @y },
-      { x: @x + 32, y: @y + 32 },
-      { x: @x + 32, y: @y - 32 },
-      { x: @x - 32, y: @y + 32 },
-      { x: @x - 32, y: @y - 32 },
-      { x: @x, y: @y + 32 },
-      { x: @x, y: @y - 32 }
+      { x: @tileX + 1, y: @tileY },
+      { x: @tileX - 1, y: @tileY },
+      { x: @tileX + 1, y: @tileY + 1 },
+      { x: @tileX + 1, y: @tileY - 1 },
+      { x: @tileX - 1, y: @tileY + 1 },
+      { x: @tileX - 1, y: @tileY - 1 },
+      { x: @tileX, y: @tileY + 1 },
+      { x: @tileX, y: @tileY - 1 }
     ]
     available = []
-
-    for pos in positions
-      unless @scene.walls.getTileAtWorldXY(pos.x, pos.y, true).index == 2
+    
+    for pos in Phaser.Utils.Array.Shuffle(positions)
+      unless @scene.getTileAtXY(pos.x, pos.y).index == 2
         free = true
-        for item, i in @scene.items
-          if item.x == pos.x && item.y == pos.y
+        for item, i in @scene.objects
+          if item.tileX == pos.x && item.tileY == pos.y
             free = false
         available.push pos if free
       
-      break if available.length >= items.length
+      break if available.length >= items.length - 1
     
-    # TODO: make it more random
+    available.unshift({ x: @tileX, y: @tileY })
+    
     for pos, i in available
-      @scene.items.push @scene.add.sprite(pos.x, pos.y, items[i])
+      @scene.add.custom(Item, pos.x, pos.y, items[i])
     @destroy()
       
 module.exports = Enemy
