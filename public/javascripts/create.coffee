@@ -43,6 +43,7 @@ module.exports = ->
   
   @add.custom(Item, 5, 1, 'ball')
   @add.custom(Item, 5, 3, 'ball')
+  @add.custom(Item, 6, 3, 'green_ball')
   @add.custom(Item, 5, 8, 'eggplant')
   @add.custom(Item, 7, 3, 'eggplant')
   @add.custom(Item, 8, 3, 'melon')
@@ -80,11 +81,12 @@ module.exports = ->
             else
               @scene.hero.health -= item.attack - @scene.hero.defense
             canMove = false
+          else
+            if @scene.inventory.addItem(item)
+              @scene.objects.remove(item)
+            else
+              canMove = false
             break
-          
-          @scene.objects.remove(item)
-          @scene.inventory.addItem(item)
-          break
 
       if canMove
         @scene.steps++

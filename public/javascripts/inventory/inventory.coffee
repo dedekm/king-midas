@@ -30,16 +30,22 @@ class Inventory extends Phaser.Structs.List
       @add(new InventoryItem(@, @length))
   
   addItem: (item) ->
-    @scene.children.remove(item)
     
     for inventoryItem, j in @list
       if !inventoryItem.category
         inventoryItem.init(item)
+        canAdd = true
         break
       else if item.category == inventoryItem.category
         inventoryItem.add(item)
+        canAdd = true
         break
-
+    
+    if canAdd
+      @scene.children.remove(item)
+      true
+    else
+     false
   
   setDropzonePosition: () ->
     x = @scene.input.x
