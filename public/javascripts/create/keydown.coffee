@@ -1,6 +1,7 @@
 Enemy = require '../game_objects/enemy.coffee'
 
 module.exports = (event) ->
+  return unless @scene.hero
   return if event.key not in ['w', 's', 'a', 'd']
 
   newPos = {
@@ -58,3 +59,8 @@ module.exports = (event) ->
         @scene.add.custom(Enemy, pos.x, pos.y)
     
     @scene.finder.calculate()
+
+    if @scene.hero.willDie
+      @scene.hero.die()
+      @scene.hero = undefined
+    

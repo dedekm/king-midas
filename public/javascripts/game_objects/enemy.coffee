@@ -23,6 +23,7 @@ class Enemy extends Character
                              self.moveByPath(path)
   
   moveByPath: (path) ->
+    return unless @scene.hero
     return unless path
     
     if path[1].x == @scene.hero.tileX && path[1].y == @scene.hero.tileY
