@@ -9,7 +9,7 @@ class Inventory extends Phaser.Structs.List
     
     self = @
     @scene.input.on 'drag', (pointer, inventorySlot, dragX, dragY) ->
-      @dropzone ||= @scene.add.image(@scene.hero.x, @scene.hero.y, 'zone')
+      @dropzone ||= @scene.add.image(@scene.hero.x, @scene.hero.y, 'frame')
       @dropzone.category = inventorySlot.category
       self.setDropzonePosition()
       @inventorySlot = inventorySlot
