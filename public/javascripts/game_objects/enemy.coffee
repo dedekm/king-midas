@@ -44,6 +44,11 @@ class Enemy extends Character
     # TODO: random number of items
     items = [Item.THING_KEYS[Math.round(Math.random() * Item.THING_KEYS.length)]]
     items.push Item.THING_KEYS[Math.round(Math.random() * Item.THING_KEYS.length)]
+    if Math.random() > 0.3
+      items.push Item.THING_KEYS[Math.round(Math.random() * Item.THING_KEYS.length)]
+      if Math.random() > 0.5
+        items.push Item.THING_KEYS[Math.round(Math.random() * Item.THING_KEYS.length)]
+      
 
     positions = [
       { x: @tileX + 1, y: @tileY },

@@ -50,7 +50,7 @@ module.exports = (event) ->
     if @scene.input.dropzone
       @scene.inventory.setDropzonePosition()
       
-    if @scene.steps % 8 == 0
+    if @scene.steps % 5 == 0
       pos = {
         x: Math.floor(Math.random() * @scene.mapWidth)
         y: Math.floor(Math.random() * @scene.mapHeight)
