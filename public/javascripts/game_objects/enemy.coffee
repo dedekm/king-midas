@@ -7,6 +7,8 @@ class Enemy extends Character
     super scene, x, y, key
     
     @type = 'enemy'
+    @attack = 10 + Math.round(Math.random() * 5)
+    @defense = 5
     @wasAttacked = false
     @scene.enemies.add @
     @scene.setGrid(@tileX, @tileY, 3)

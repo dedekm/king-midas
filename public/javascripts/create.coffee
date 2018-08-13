@@ -59,17 +59,14 @@ module.exports = ->
   @hero.attack = 50
   @hero.defense = 10
   
-  enemy = @add.custom(Enemy, 5, 3)
-  enemy.attack = 15
-  enemy.defense = 5
-  
-  enemy = @add.custom(Enemy, 4, 6)
-  enemy.attack = 15
-  enemy.defense = 5
+  @add.custom(Enemy, 4, 5)
+  @add.custom(Enemy, 28, 16)
+  @add.custom(Enemy, 3, 17)
+  @add.custom(Enemy, 23, 13)
   
   @add.item(7, 8, 'axe2')
   @add.item(10, 10, 'gold1')
-
-  @add.customGroup(Item, 12, 3, 'axe1', null, 2)
+  @add.item(12, 15, 'goblet')
+  @add.item(28, 3, 'gold2', null)
   
   @input.keyboard.on 'keydown', keydown
