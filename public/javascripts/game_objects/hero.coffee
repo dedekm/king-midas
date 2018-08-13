@@ -6,7 +6,5 @@ class Hero extends Character
 
   move: (x, y) ->
     super(x, y)
-    if @scene.input.dropzone
-      @scene.inventory.setZonePosition()
     
 module.exports = Hero

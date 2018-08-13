@@ -15,9 +15,10 @@ class Inventory extends Phaser.Structs.List
       inventoryItem.setImagesPosition(dragX, dragY)
     
     @scene.input.on 'drop', (pointer, inventoryItem, target) ->
-      available = true
-      if available
+      if @dropzone.available
         inventoryItem.drop(@dropzone.x, @dropzone.y)
+      else
+        inventoryItem.return()
       @dropzone.destroy()
       @dropzone = null
     
@@ -45,18 +46,32 @@ class Inventory extends Phaser.Structs.List
   setDropzonePosition: () ->
     x = @scene.input.x
     y = @scene.input.y
+        
     angle = Phaser.Math.Angle.Between(x, y, @scene.hero.x, @scene.hero.y) * Phaser.Math.RAD_TO_DEG
     pos = { x: 0, y: 0 }
     
     if -135 <= angle < -45
-      pos.y = @scene.tileSize
+      pos.y = 1
     else if -45 <= angle < 45
-      pos.x = @scene.tileSize * -1
+      pos.x = -1
     else if 45 <= angle < 135
-      pos.y = @scene.tileSize * -1
+      pos.y = -1
     else if 135 <= angle || angle < -135
-      pos.x = @scene.tileSize
+      pos.x = 1
+    
+    target = {
+      x: @scene.hero.tileX + pos.x,
+      y: @scene.hero.tileY + pos.y
+    }
+    
+    if @scene.getGrid(target.x,target.y) == 0
+      @scene.input.dropzone.available = true
+      @scene.input.dropzone.setTint(0x00ff00)
+    else
+      @scene.input.dropzone.available = false
+      @scene.input.dropzone.setTint(0xff0000)
       
-    @scene.input.dropzone.setPosition(@scene.hero.x + pos.x, @scene.hero.y + pos.y)
+    @scene.input.dropzone.setPosition target.x * @scene.tileSize + @scene.tileSizeHalf,
+                                      target.y * @scene.tileSize + @scene.tileSizeHalf
     
 module.exports = Inventory

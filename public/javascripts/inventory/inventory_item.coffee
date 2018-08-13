@@ -35,7 +35,9 @@ class InventoryItem extends Phaser.GameObjects.Image
         @images.push @inventory.scene.add.image(@x, @y - 6 * (@amount - 1), item.texture.key)
       
     @text.setText @amount
-  
+  return: () ->
+    @setImagesPosition @x, @y
+    
   drop: (x, y) ->
     item = @list.shift()
     item.tileX = (x - @scene.tileSizeHalf) / @scene.tileSize

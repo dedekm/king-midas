@@ -127,4 +127,7 @@ module.exports = ->
         @scene.steps++
         @scene.hero.moveTo(newPos.x, newPos.y)
       
+      if @scene.input.dropzone
+        @scene.inventory.setDropzonePosition()
+      
       @scene.finder.calculate()
