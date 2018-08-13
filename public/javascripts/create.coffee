@@ -10,17 +10,15 @@ keydown = require './create/keydown.coffee'
 buildMap = require './create/build_map.coffee'
 
 module.exports = ->
-  @totalValueDirty = true
+  @tileSize = 29
+  @tileSizeHalf = @tileSize / 2
+  
   @totalValue = 0
-  @getTotalValue = ->
-    if @totalValueDirty
-      @totalValue = 0
-      for object in @objects
-        @totalValue += object.value if object.type == 'item'
-      for object in @inventory.list
-        @totalValue += object.value
-      @totalValueDirty = false
-    return @totalValue
+  @totalValueText = @add.text 1050, 140
+  @totalValueText.depth = 1000
+  @addToTotalValue = (value) ->
+    @totalValue += value
+    @totalValueText.setText(@totalValue)
   
   @getTileXY = (x, y) ->
     {
@@ -50,9 +48,6 @@ module.exports = ->
       
   @add.item = (x, y, key) ->
     @custom(Item, x, y, key)
-
-  @tileSize = 29
-  @tileSizeHalf = @tileSize / 2
   
   buildMap(@)
   

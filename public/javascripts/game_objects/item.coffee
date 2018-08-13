@@ -16,6 +16,7 @@ class Item extends Object
     @type = 'item'
     @category = key
     @value = 10
+    @scene.addToTotalValue(@value)
     
     @init()
 
