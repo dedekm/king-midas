@@ -6,8 +6,12 @@ Inventory = require './inventory/inventory.coffee'
 EasyStar = require 'easystarjs'
 
 buildMap = (scene) ->
-  map = scene.make.tilemap(key: 'map', tileWidth: 32, tileHeight: 32)
-  tileset = map.addTilesetImage('tiles', null, 32, 32, 1, 2)
+  map = scene.make.tilemap key: 'map',
+                           tileWidth: scene.tileSize,
+                           tileHeight: scene.tileSize
+  tileset = map.addTilesetImage 'tiles', null,
+                                scene.tileSize, scene.tileSize,
+                                1, 2
   scene.walls = map.createStaticLayer(0, tileset, 0, 0)
   
   scene.finder = new EasyStar.js();
@@ -64,10 +68,11 @@ module.exports = ->
   @setGrid = (x, y, value) ->
     @grid[y][x] = value
       
-  buildMap(@)
-  
   @tileSize = 32
   @tileSizeHalf = @tileSize / 2
+  
+  buildMap(@)
+  
   @steps = 0
   @enemies = new Phaser.Structs.List()
   @inventory = new Inventory(@)
