@@ -26,7 +26,7 @@ class InventoryItem extends Phaser.GameObjects.Image
       @amount += item.value
       if @list.length == 0
         @list.push item
-        @images = @inventory.scene.add.image(@x, @y, item.texture.key)
+        @image = @inventory.scene.add.image(@x, @y, item.texture.key)
     else
       if @list.length == 0
         @image = @inventory.scene.add.image(@x, @y, item.texture.key)
