@@ -6,10 +6,13 @@ class Enemy extends Character
     super scene, x, y, key, frame
     
     @type = 'enemy'
+    @wasAttacked = false
     @scene.enemies.add @
     @scene.setGrid(@tileX, @tileY, 1)
   
   move: ->
+    @wasAttacked = false
+    
     self = @
     @pathId = @scene.finder.findPath @tileX,
                            @tileY,
@@ -17,15 +20,20 @@ class Enemy extends Character
                            @scene.hero.tileY,
                            (path)->
                              self.moveByPath(path)
-                               
+  
   moveByPath: (path) ->
     return unless path
     
-    unless path[1].x == @scene.hero.tileX && path[1].y == @scene.hero.tileY
+    if path[1].x == @scene.hero.tileX && path[1].y == @scene.hero.tileY
+      @attackHero() unless @wasAttacked
+    else if @scene.getGrid(path[1].x, path[1].y) == 0
       @scene.setGrid(@tileX, @tileY, 0)
       @moveTo(path[1].x, path[1].y)
       @scene.setGrid(@tileX, @tileY, 1)
-                               
+  
+  attackHero: ->
+    @scene.hero.defend(@attack)
+  
   die: ->
     @scene.objects.remove(@)
     @scene.enemies.remove(@)

@@ -109,11 +109,13 @@ module.exports = ->
       for item, i in @scene.objects.list
         if item.tileX == newPos.x && item.tileY == newPos.y
           if item.type && item.type == 'enemy'
-            item.health -= @scene.hero.attack - item.defense
+            item.defend(@scene.hero.attack)
+            
             if item.health <= 0
               item.die()
             else
-              @scene.hero.health -= item.attack - @scene.hero.defense
+              item.wasAttacked = true
+              @scene.hero.defend(item.attack)
             canMove = false
             break
           else

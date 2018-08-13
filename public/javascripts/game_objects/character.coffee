@@ -8,6 +8,9 @@ class Character extends Object
     @attack = 0
     @defense = 0
   
+  defend: (value) ->
+    @health -= value - @defense
+  
   moveTo: (x, y) ->
     @tileX = x
     @tileY = y
