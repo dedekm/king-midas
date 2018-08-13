@@ -6,6 +6,9 @@ class Item extends Object
     'gold1', 'gold2', 'gold3', 'sword3', 'axe1', 'axe2',
     'potion', 'skull1', 'skull2'
   ]
+  @THING_VALUES = [
+    200, 80, 160, 120, 100, 1, 10, 100, 210, 280, 80, 20, 40, 20
+  ]
   
   constructor: (scene, x, y, key) ->
     super scene, x, y, 'things'
@@ -15,7 +18,7 @@ class Item extends Object
     
     @type = 'item'
     @category = key
-    @value = 10
+    @value = @constructor.THING_VALUES[frame]
     @scene.addToTotalValue(@value)
     
     @init()
