@@ -12,17 +12,27 @@ class Inventory extends Phaser.Structs.List
       @dropzone ||= @scene.add.image(@scene.hero.x, @scene.hero.y, 'zone')
       @dropzone.category = inventorySlot.category
       self.setDropzonePosition()
-      inventorySlot.setImagePosition(dragX, dragY)
+      @inventorySlot = inventorySlot
+      @inventorySlot.setImagePosition(dragX, dragY)
     
     @scene.input.on 'drop', (pointer, inventorySlot, target) ->
       if @dropzone.available
-        inventorySlot.drop(@dropzone.x, @dropzone.y)
+        @inventorySlot.drop(@dropzone.x, @dropzone.y)
       else
-        inventorySlot.return()
+        @inventorySlot.return()
       @dropzone.destroy()
+      @inventorySlot = null
       @dropzone = null
+      
+    @scene.input.on 'pointerup', (pointer) ->
+      if @dropzone
+        @inventorySlot.return()
+        @dropzone.destroy()
+        @inventorySlot = null
+        @dropzone = null
     
-    @scene.add.zone(320, 240, 640, 480).setDropZone()
+    @scene.add.zone(320, 240 - @scene.tileSizeHalf,
+                    640, 480 - @scene.tileSize).setDropZone()
     
     for name in [1..4]
       @add(new InventorySlot(@, @length))
