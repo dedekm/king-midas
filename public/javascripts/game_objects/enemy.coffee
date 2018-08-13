@@ -2,8 +2,9 @@ Character = require './character.coffee'
 Item = require './item.coffee'
 
 class Enemy extends Character
-  constructor: (scene, x, y, key, frame) ->
-    super scene, x, y, key, frame
+  constructor: (scene, x, y) ->
+    key = Phaser.Utils.Array.Shuffle(['demon', 'dragon', 'scorpio', 'skeleton', 'troll'])[0]
+    super scene, x, y, key
     
     @type = 'enemy'
     @wasAttacked = false

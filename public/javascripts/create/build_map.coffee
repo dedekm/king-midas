@@ -17,6 +17,9 @@ module.exports = (scene) ->
   scene.finder = new EasyStar.js();
   scene.objects = []
   scene.grid = []
+  scene.mapWidth = map.width
+  scene.mapHeight = map.height
+  
   y = 0
   while y < map.height
     scene.objects.push []

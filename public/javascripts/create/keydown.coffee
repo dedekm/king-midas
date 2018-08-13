@@ -1,3 +1,5 @@
+Enemy = require '../game_objects/enemy.coffee'
+
 module.exports = (event) ->
   return if event.key not in ['w', 's', 'a', 'd']
 
@@ -46,5 +48,13 @@ module.exports = (event) ->
     
     if @scene.input.dropzone
       @scene.inventory.setDropzonePosition()
+      
+    if @scene.steps % 8 == 0
+      pos = {
+        x: Math.floor(Math.random() * @scene.mapWidth)
+        y: Math.floor(Math.random() * @scene.mapHeight)
+      }
+      if @scene.getGrid(pos.x, pos.y) == 0
+        @scene.add.custom(Enemy, pos.x, pos.y)
     
     @scene.finder.calculate()
