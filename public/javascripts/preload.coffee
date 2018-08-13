@@ -1,5 +1,6 @@
 module.exports = ->
   @load.image('frame', '/images/frame.png')
+  @load.image('inventory_slot', '/images/inventory_slot.png')
   @load.spritesheet('things', '/images/things.png', { frameWidth: 29, frameHeight: 29 });
   
   for character in ['demon', 'dragon', 'knight', 'scorpio', 'skeleton', 'troll']
