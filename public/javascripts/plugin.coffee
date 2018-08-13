@@ -7,7 +7,7 @@ class CustomPlugin extends Phaser.Plugins.BasePlugin
     custom = new klass(@scene, x, y, key, frame)
     
     @scene.totalValueDirty = true if custom.value
-    @scene.objects.add custom
+    @scene.objects[y][x] = custom
     @displayList.add custom
 
 module.exports = CustomPlugin

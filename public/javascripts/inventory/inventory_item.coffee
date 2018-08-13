@@ -40,15 +40,20 @@ class InventoryItem extends Phaser.GameObjects.Image
     @setImagePosition @x, @y
     
   drop: (x, y) ->
-    item = @list.shift()
-    item.tileX = (x - @scene.tileSizeHalf) / @scene.tileSize
-    item.tileY = (y - @scene.tileSizeHalf) / @scene.tileSize
-    item.init().setPosition(x, y)
+    pos = @scene.getTileXY(x, y)
     
-    @scene.children.add item
-    @scene.objects.add item
+    if item = @scene.getItemAtXY(pos.x,pos.y)
+      item.addItem @list.shift()
+    else
+      item = @list.shift()
+      item.tileX = pos.x
+      item.tileY = pos.y
+      item.init().setPosition(x, y)
+      @scene.children.add item
+      @scene.setItemAtXY(item.tileX, item.tileY, item)
+      
     for i in @list
-      item.addItem(i)
+      item.addItem i
     
     @list.length = 0
     @image.destroy()

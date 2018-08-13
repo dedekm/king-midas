@@ -10,7 +10,7 @@ class Inventory extends Phaser.Structs.List
     self = @
     @scene.input.on 'drag', (pointer, inventoryItem, dragX, dragY) ->
       @dropzone ||= @scene.add.image(@scene.hero.x, @scene.hero.y, 'zone')
-      
+      @dropzone.category = inventoryItem.category
       self.setDropzonePosition()
       inventoryItem.setImagePosition(dragX, dragY)
     
@@ -64,9 +64,10 @@ class Inventory extends Phaser.Structs.List
       y: @scene.hero.tileY + pos.y
     }
     
-    if @scene.getGrid(target.x,target.y) == 0
-      @scene.input.dropzone.available = true
-      @scene.input.dropzone.setTint(0x00ff00)
+    if @scene.getGrid(target.x,target.y) == 0 ||
+      @scene.getItemAtXY(target.x,target.y).category == @scene.input.dropzone.category
+        @scene.input.dropzone.available = true
+        @scene.input.dropzone.setTint(0x00ff00)
     else
       @scene.input.dropzone.available = false
       @scene.input.dropzone.setTint(0xff0000)

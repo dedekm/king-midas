@@ -11,9 +11,12 @@ buildMap = (scene) ->
   scene.walls = map.createStaticLayer(0, tileset, 0, 0)
   
   scene.finder = new EasyStar.js();
+  scene.objects = []
   scene.grid = []
   y = 0
   while y < map.height
+    scene.objects.push []
+    
     col = []
     x = 0
     while x < map.width
@@ -33,15 +36,27 @@ module.exports = ->
   @getTotalValue = ->
     if @totalValueDirty
       @totalValue = 0
-      for object in @objects.list
+      for object in @objects
         @totalValue += object.value if object.type == 'item'
       for object in @inventory.list
         @totalValue += object.value
       @totalValueDirty = false
     return @totalValue
   
+  @getTileXY = (x, y) ->
+    {
+      x: (x - @tileSizeHalf) / @tileSize,
+      y: (y - @tileSizeHalf) / @tileSize
+    }
+    
   @getTileAtXY = (x, y) ->
     @walls.getTileAtWorldXY(x * @tileSize, y * @tileSize, true)
+  
+  @getItemAtXY = (x, y) ->
+    @objects[y][x]
+  
+  @setItemAtXY = (x, y, item) ->
+    @objects[y][x] = item
   
   @getGrid = (x, y) ->
     @grid[y][x]
@@ -54,7 +69,6 @@ module.exports = ->
   @tileSize = 32
   @tileSizeHalf = @tileSize / 2
   @steps = 0
-  @objects = new Phaser.Structs.List()
   @enemies = new Phaser.Structs.List()
   @inventory = new Inventory(@)
   
@@ -106,24 +120,22 @@ module.exports = ->
       
       canMove = true
 
-      for item, i in @scene.objects.list
-        if item.tileX == newPos.x && item.tileY == newPos.y
-          if item.type && item.type == 'enemy'
-            item.defend(@scene.hero.attack)
-            
-            if item.health <= 0
-              item.die()
-            else
-              item.wasAttacked = true
-              @scene.hero.defend(item.attack)
-            canMove = false
-            break
+      
+      if item = @scene.getItemAtXY(newPos.x, newPos.y)
+        if item.type && item.type == 'enemy'
+          item.defend(@scene.hero.attack)
+          
+          if item.health <= 0
+            item.die()
           else
-            if @scene.inventory.addItem(item)
-              @scene.objects.remove(item)
-            else
-              canMove = false
-            break
+            item.wasAttacked = true
+            @scene.hero.defend(item.attack)
+          canMove = false
+        else
+          if @scene.inventory.addItem(item)
+            @scene.setItemAtXY(item.tileX, item.tileY, undefined)
+          else
+            canMove = false
 
       if canMove
         @scene.steps++

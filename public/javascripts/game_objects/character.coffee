@@ -12,8 +12,10 @@ class Character extends Object
     @health -= value - @defense
   
   moveTo: (x, y) ->
+    @scene.setItemAtXY @tileX, @tileY, undefined
     @tileX = x
     @tileY = y
+    @scene.setItemAtXY @tileX, @tileY, @
     @x = x * @scene.tileSize + @scene.tileSizeHalf
     @y = y * @scene.tileSize + @scene.tileSizeHalf
 

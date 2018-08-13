@@ -35,7 +35,7 @@ class Enemy extends Character
     @scene.hero.defend(@attack)
   
   die: ->
-    @scene.objects.remove(@)
+    @scene.setItemAtXY(@tileX, @tileY, undefined)
     @scene.enemies.remove(@)
     @scene.finder.cancelPath(@pathId);
     
@@ -55,9 +55,8 @@ class Enemy extends Character
     for pos in Phaser.Utils.Array.Shuffle(positions)
       unless @scene.getTileAtXY(pos.x, pos.y).index == 2
         free = true
-        for item, i in @scene.objects.list
-          if item.tileX == pos.x && item.tileY == pos.y
-            free = false
+        if @scene.getItemAtXY(pos.x, pos.y)
+          free = false
         available.push pos if free
       
       break if available.length >= items.length - 1
