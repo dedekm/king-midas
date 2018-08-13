@@ -1,4 +1,6 @@
 module.exports = (event) ->
+  return if event.key not in ['w', 's', 'a', 'd']
+
   newPos = {
     x: @scene.hero.tileX
     y: @scene.hero.tileY
