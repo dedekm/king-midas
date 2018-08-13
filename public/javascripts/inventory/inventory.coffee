@@ -12,7 +12,7 @@ class Inventory extends Phaser.Structs.List
       @dropzone ||= @scene.add.image(@scene.hero.x, @scene.hero.y, 'zone')
       
       self.setDropzonePosition()
-      inventoryItem.setImagesPosition(dragX, dragY)
+      inventoryItem.setImagePosition(dragX, dragY)
     
     @scene.input.on 'drop', (pointer, inventoryItem, target) ->
       if @dropzone.available

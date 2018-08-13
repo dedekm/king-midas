@@ -9,7 +9,6 @@ class InventoryItem extends Phaser.GameObjects.Image
     
     @inventory = inventory
     @position = position
-    @images = []
     @list = []
     @text = @inventory.scene.add.text(@x, @y, 0)
     @value = 0
@@ -27,16 +26,18 @@ class InventoryItem extends Phaser.GameObjects.Image
       @amount += item.value
       if @list.length == 0
         @list.push item
-        @images.push @inventory.scene.add.image(@x, @y, item.texture.key)
+        @images = @inventory.scene.add.image(@x, @y, item.texture.key)
     else
+      if @list.length == 0
+        @image = @inventory.scene.add.image(@x, @y, item.texture.key)
+      
       for i in item.list
         @list.push i
         @amount += 1
-        @images.push @inventory.scene.add.image(@x, @y - 6 * (@amount - 1), item.texture.key)
       
     @text.setText @amount
   return: () ->
-    @setImagesPosition @x, @y
+    @setImagePosition @x, @y
     
   drop: (x, y) ->
     item = @list.shift()
@@ -50,9 +51,7 @@ class InventoryItem extends Phaser.GameObjects.Image
       item.addItem(i)
     
     @list.length = 0
-    for image in @images
-      image.destroy()
-    @images.length = 0
+    @image.destroy()
     @amount = 0
     @value = 0
     @category = null
@@ -63,8 +62,7 @@ class InventoryItem extends Phaser.GameObjects.Image
     
     return item
   
-  setImagesPosition: (x, y) ->
-    for item, i in @images
-      item.setPosition(x, y - 6 * i)
+  setImagePosition: (x, y) ->
+    @image.setPosition(x, y)
 
 module.exports = InventoryItem
