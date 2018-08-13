@@ -1,4 +1,4 @@
-class InventoryItem extends Phaser.GameObjects.Image
+class InventorySlot extends Phaser.GameObjects.Image
   constructor: (inventory, position) ->
     scene = inventory.scene
     x = inventory.baseX + position * scene.tileSize
@@ -15,6 +15,12 @@ class InventoryItem extends Phaser.GameObjects.Image
     @amount = 0
   
   add: (item) ->
+    if Array.isArray(item)
+      list = item
+      item = list[0]
+    else
+      list = item.list
+      
     if @list.length == 0
       @setInteractive()
       @scene.input.setDraggable(@)
@@ -31,11 +37,12 @@ class InventoryItem extends Phaser.GameObjects.Image
       if @list.length == 0
         @image = @inventory.scene.add.image(@x, @y, item.texture.key)
       
-      for i in item.list
+      for i in list
         @list.push i
         @amount += 1
       
     @text.setText @amount
+  
   return: () ->
     @setImagePosition @x, @y
     
@@ -70,4 +77,4 @@ class InventoryItem extends Phaser.GameObjects.Image
   setImagePosition: (x, y) ->
     @image.setPosition(x, y)
 
-module.exports = InventoryItem
+module.exports = InventorySlot

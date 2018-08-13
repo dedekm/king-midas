@@ -1,4 +1,4 @@
-InventoryItem = require './inventory_item.coffee'
+InventorySlot = require './inventory_slot.coffee'
 
 class Inventory extends Phaser.Structs.List
   constructor: (scene)->
@@ -8,34 +8,38 @@ class Inventory extends Phaser.Structs.List
     @baseX = @scene.tileSize + @scene.tileSizeHalf
     
     self = @
-    @scene.input.on 'drag', (pointer, inventoryItem, dragX, dragY) ->
+    @scene.input.on 'drag', (pointer, inventorySlot, dragX, dragY) ->
       @dropzone ||= @scene.add.image(@scene.hero.x, @scene.hero.y, 'zone')
-      @dropzone.category = inventoryItem.category
+      @dropzone.category = inventorySlot.category
       self.setDropzonePosition()
-      inventoryItem.setImagePosition(dragX, dragY)
+      inventorySlot.setImagePosition(dragX, dragY)
     
-    @scene.input.on 'drop', (pointer, inventoryItem, target) ->
+    @scene.input.on 'drop', (pointer, inventorySlot, target) ->
       if @dropzone.available
-        inventoryItem.drop(@dropzone.x, @dropzone.y)
+        inventorySlot.drop(@dropzone.x, @dropzone.y)
       else
-        inventoryItem.return()
+        inventorySlot.return()
       @dropzone.destroy()
       @dropzone = null
     
-    zone = @scene.add.zone(320, 240, 640, 480).setDropZone()
-    graphics = @scene.add.graphics();
-    graphics.lineStyle(2, 0xffff00);
-    graphics.strokeRect(zone.x + zone.input.hitArea.x, zone.y + zone.input.hitArea.y, zone.input.hitArea.width, zone.input.hitArea.height);
+    @scene.add.zone(320, 240, 640, 480).setDropZone()
     
     for name in [1..4]
-      @add(new InventoryItem(@, @length))
+      @add(new InventorySlot(@, @length))
   
   addItem: (item) ->
-    for inventoryItem, j in @list
-      if !inventoryItem.category || item.category == inventoryItem.category
-        inventoryItem.add(item)
-        canAdd = true
-        break
+    for inventorySlot in @list
+      if inventorySlot.amount < 3 &&
+        (!inventorySlot.category || item.category == inventorySlot.category)
+          if inventorySlot.amount + item.list.length > 3
+            # pick just part of items
+            part = item.pickUpItems(3 - inventorySlot.amount)
+            inventorySlot.add(part)
+          else
+            # pick all items
+            inventorySlot.add(item)
+            canAdd = true
+            break
     
     if canAdd
       item.pickUp()

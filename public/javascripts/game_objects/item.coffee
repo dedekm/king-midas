@@ -23,6 +23,16 @@ class Item extends Object
     @scene.children.add item
     item.setPosition(@x, @y - 6 * (@list.length - 1), item.texture.key)
   
+  pickUpItems: (amount) ->
+    items = []
+    for name in [0...amount]
+      item = @list.pop()
+      @value -= item.value
+      @scene.children.remove(item)
+      items.push item
+      
+    items
+  
   pickUp: ->
     @scene.setGrid(@tileX, @tileY, 0)
     @scene.children.remove(@)
