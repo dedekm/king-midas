@@ -5,7 +5,7 @@
  */
 require('coffeescript/register')
 var app = require('../app.coffee');
-var debug = require('debug')('full-dungeon:server');
+var debug = require('debug')('king-midas:server');
 var http = require('http');
 
 /**
