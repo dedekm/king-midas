@@ -60,19 +60,19 @@ module.exports = ->
   @enemies = new Phaser.Structs.List()
   @inventory = new Inventory(@)
   
-  @hero = @add.custom(Hero, 5, 6, 'clown')
+  @hero = @add.custom(Hero, 10, 8, 'knight')
   @hero.attack = 50
   @hero.defense = 10
   
-  enemy = @add.custom(Enemy, 3, 3, 'ufo')
+  enemy = @add.custom(Enemy, 3, 3, 'troll', 0)
   enemy.attack = 15
   enemy.defense = 5
   
-  enemy = @add.custom(Enemy, 4, 3, 'ufo')
+  enemy = @add.custom(Enemy, 4, 3, 'demon', 0)
   enemy.attack = 15
   enemy.defense = 5
   
-  @add.item(7, 8, 'sword1')
+  @add.item(7, 8, 'axe2')
   @add.item(10, 10, 'gold1')
 
   @add.customGroup(Item, 12, 3, 'axe1', null, 2)

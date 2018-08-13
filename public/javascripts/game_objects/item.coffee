@@ -1,15 +1,17 @@
 Object = require './object.coffee'
 
-thingKeys = [
-  'shield', 'sword1', 'sword2', 'goblet', 'candle',
-  'gold1', 'gold2', 'gold3', 'sword3', 'axe1', 'axe2',
-  'potion', 'skull1', 'skull2'
-]
-
 class Item extends Object
+  @THING_KEYS = [
+    'shield', 'sword1', 'sword2', 'goblet', 'candle',
+    'gold1', 'gold2', 'gold3', 'sword3', 'axe1', 'axe2',
+    'potion', 'skull1', 'skull2'
+  ]
+  
   constructor: (scene, x, y, key) ->
-    frame = thingKeys.indexOf(key)
-    super scene, x, y, 'things', frame
+    super scene, x, y, 'things'
+    
+    frame = @constructor.THING_KEYS.indexOf(key)
+    @setFrame(frame)
     
     @type = 'item'
     @category = key

@@ -38,8 +38,11 @@ class Enemy extends Character
     @scene.setItemAtXY(@tileX, @tileY, undefined)
     @scene.enemies.remove(@)
     @scene.finder.cancelPath(@pathId);
-    
-    items = Phaser.Utils.Array.Shuffle ['melon', 'eggplant']
+
+    # TODO: random number of items
+    items = [Item.THING_KEYS[Math.round(Math.random() * Item.THING_KEYS.length)]]
+    items.push Item.THING_KEYS[Math.round(Math.random() * Item.THING_KEYS.length)]
+
     positions = [
       { x: @tileX + 1, y: @tileY },
       { x: @tileX - 1, y: @tileY },
@@ -53,7 +56,7 @@ class Enemy extends Character
     available = []
     
     for pos in Phaser.Utils.Array.Shuffle(positions)
-      unless @scene.getTileAtXY(pos.x, pos.y).index == 2
+      unless @scene.getGrid(pos.x, pos.y) == 1
         free = true
         if @scene.getItemAtXY(pos.x, pos.y)
           free = false
@@ -64,7 +67,7 @@ class Enemy extends Character
     available.unshift({ x: @tileX, y: @tileY })
     
     for pos, i in available
-      @scene.add.custom(Item, pos.x, pos.y, items[i])
+      @scene.add.item(pos.x, pos.y, items[i])
     @destroy()
       
 module.exports = Enemy

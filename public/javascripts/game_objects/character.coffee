@@ -4,6 +4,7 @@ class Character extends Object
   constructor: (scene, x, y, key, frame) ->
     super scene, x, y, key, frame
     
+    @setOrigin(0.5, 0.75)
     @health = 100
     @attack = 0
     @defense = 0
