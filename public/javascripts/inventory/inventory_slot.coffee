@@ -33,6 +33,7 @@ class InventorySlot extends Phaser.GameObjects.Image
       if @list.length == 0
         @list.push item
         @image = @inventory.scene.add.image(@x, @y, item.texture.key)
+      @list[0].value = @amount
     else
       if @list.length == 0
         @image = @inventory.scene.add.image(@x, @y, item.texture.key)

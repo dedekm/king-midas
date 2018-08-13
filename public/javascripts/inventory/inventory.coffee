@@ -39,17 +39,31 @@ class Inventory extends Phaser.Structs.List
   
   addItem: (item) ->
     for inventorySlot in @list
-      if inventorySlot.amount < 3 &&
+      maxAmount = if item.category == 'gold' then 99 else 3
+      
+      if inventorySlot.amount < maxAmount &&
         (!inventorySlot.category || item.category == inventorySlot.category)
-          if inventorySlot.amount + item.list.length > 3
-            # pick just part of items
-            part = item.pickUpItems(3 - inventorySlot.amount)
-            inventorySlot.add(part)
+          if item.category == 'gold'
+            # FIXME
+            if inventorySlot.amount + item.value > maxAmount
+              # pick just part of items
+              part = item.pickUpItems(maxAmount - inventorySlot.amount)
+              inventorySlot.add(part)
+            else
+              # pick all items
+              inventorySlot.add(item)
+              canAdd = true
+              break
           else
-            # pick all items
-            inventorySlot.add(item)
-            canAdd = true
-            break
+            if inventorySlot.amount + item.list.length > maxAmount
+              # pick just part of items
+              part = item.pickUpItems(maxAmount - inventorySlot.amount)
+              inventorySlot.add(part)
+            else
+              # pick all items
+              inventorySlot.add(item)
+              canAdd = true
+              break
     
     if canAdd
       item.pickUp()

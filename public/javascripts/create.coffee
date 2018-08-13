@@ -77,6 +77,7 @@ module.exports = ->
   @add.custom(Gold, 2, 4, 20)
   @add.custom(Gold, 3, 4, 30)
   @add.custom(Gold, 4, 4, 20)
+  @add.custom(Gold, 5, 4, 50)
 
   @add.customGroup(Item, 8, 3, 'melon', null, 3)
   @add.customGroup(Item, 9, 3, 'green_ball', null, 4)
