@@ -3,11 +3,29 @@ Enemy = require './game_objects/enemy.coffee'
 Item = require './game_objects/item.coffee'
 Gold = require './game_objects/gold.coffee'
 Inventory = require './inventory/inventory.coffee'
+EasyStar = require 'easystarjs'
 
 buildMap = (scene) ->
   map = scene.make.tilemap(key: 'map', tileWidth: 32, tileHeight: 32)
   tileset = map.addTilesetImage('tiles', null, 32, 32, 1, 2)
   scene.walls = map.createStaticLayer(0, tileset, 0, 0)
+  
+  scene.finder = new EasyStar.js();
+  scene.grid = []
+  y = 0
+  while y < map.height
+    col = []
+    x = 0
+    while x < map.width
+      # In each cell we store the ID of the tile, which corresponds
+      # to its index in the tileset of the map ("ID" field in Tiled)
+      col.push map.getTileAt(x, y).index
+      x++
+    scene.grid.push col
+    y++
+  
+  scene.finder.setGrid scene.grid
+  scene.finder.setAcceptableTiles([0]);
 
 module.exports = ->
   @totalValueDirty = true
@@ -25,12 +43,19 @@ module.exports = ->
   @getTileAtXY = (x, y) ->
     @walls.getTileAtWorldXY(x * @tileSize, y * @tileSize, true)
   
+  @getGrid = (x, y) ->
+    @grid[y][x]
+    
+  @setGrid = (x, y, value) ->
+    @grid[y][x] = value
+      
   buildMap(@)
   
   @tileSize = 32
   @tileSizeHalf = @tileSize / 2
   @steps = 0
   @objects = new Phaser.Structs.List()
+  @enemies = new Phaser.Structs.List()
   @inventory = new Inventory(@)
   
   @hero = @add.custom(Hero, 1, 1, 'clown')
@@ -72,6 +97,9 @@ module.exports = ->
         return
     
     unless @scene.getTileAtXY(newPos.x, newPos.y, true).index == 2
+      for enemy in @scene.enemies.list
+        enemy.move()
+      
       canMove = true
 
       for item, i in @scene.objects.list
@@ -94,3 +122,5 @@ module.exports = ->
       if canMove
         @scene.steps++
         @scene.hero.moveTo(newPos.x, newPos.y)
+      
+      @scene.finder.calculate()

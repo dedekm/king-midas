@@ -6,9 +6,28 @@ class Enemy extends Character
     super scene, x, y, key, frame
     
     @type = 'enemy'
+    @scene.enemies.add @
+    @scene.setGrid(@tileX, @tileY, 1)
   
+  move: ->
+    self = @
+    @pathId = @scene.finder.findPath @tileX,
+                           @tileY,
+                           @scene.hero.tileX,
+                           @scene.hero.tileY,
+                           (path)->
+                             self.moveByPath(path)
+                               
+  moveByPath: (path) ->
+    return unless path
+    
+    unless path[1].x == @scene.hero.tileX && path[1].y == @scene.hero.tileY
+      @moveTo(path[1].x, path[1].y)
+                               
   die: ->
     @scene.objects.remove(@)
+    @scene.enemies.remove(@)
+    @scene.finder.cancelPath(@pathId);
     
     items = Phaser.Utils.Array.Shuffle ['melon', 'eggplant']
     positions = [

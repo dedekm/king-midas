@@ -4,15 +4,9 @@ class CustomPlugin extends Phaser.Plugins.BasePlugin
     pluginManager.registerGameObject('custom', this.createCustom)
 
   createCustom: (klass, x, y, key, frame) ->
-    pixelX = x * @scene.tileSize + @scene.tileSizeHalf
-    pixelY = y * @scene.tileSize + @scene.tileSizeHalf
-    
-    custom = new klass(@scene, pixelX, pixelY, key, frame)
+    custom = new klass(@scene, x, y, key, frame)
     
     @scene.totalValueDirty = true if custom.value
-    
-    custom.tileX = x
-    custom.tileY = y
     @scene.objects.add custom
     @displayList.add custom
 

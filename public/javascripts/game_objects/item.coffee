@@ -12,6 +12,7 @@ class Item extends Object
 
   init: () ->
     @list = [@]
+    @scene.setGrid(@tileX, @tileY, 1)
     return @
     
   addItem: (item) ->
@@ -23,6 +24,7 @@ class Item extends Object
     item.setPosition(@x, @y - 6 * (@list.length - 1), item.texture.key)
   
   pickUp: ->
+    @scene.setGrid(@tileX, @tileY, 0)
     @scene.children.remove(@)
     
     for item in @list

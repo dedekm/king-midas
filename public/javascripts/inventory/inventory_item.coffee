@@ -37,10 +37,10 @@ class InventoryItem extends Phaser.GameObjects.Image
     @text.setText @amount
   
   drop: (x, y) ->
-    item = @list.shift().init()
-    item.setPosition(x, y)
+    item = @list.shift()
     item.tileX = (x - @scene.tileSizeHalf) / @scene.tileSize
     item.tileY = (y - @scene.tileSizeHalf) / @scene.tileSize
+    item.init().setPosition(x, y)
     
     @scene.children.add item
     @scene.objects.add item
