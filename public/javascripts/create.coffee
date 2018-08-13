@@ -66,6 +66,10 @@ module.exports = ->
   enemy.attack = 15
   enemy.defense = 5
   
+  enemy = @add.custom(Enemy, 4, 3, 'ufo')
+  enemy.attack = 15
+  enemy.defense = 5
+  
   @add.custom(Item, 5, 1, 'ball')
   @add.custom(Item, 5, 3, 'ball')
   @add.custom(Item, 6, 3, 'green_ball')

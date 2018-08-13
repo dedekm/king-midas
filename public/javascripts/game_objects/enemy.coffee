@@ -22,7 +22,9 @@ class Enemy extends Character
     return unless path
     
     unless path[1].x == @scene.hero.tileX && path[1].y == @scene.hero.tileY
+      @scene.setGrid(@tileX, @tileY, 0)
       @moveTo(path[1].x, path[1].y)
+      @scene.setGrid(@tileX, @tileY, 1)
                                
   die: ->
     @scene.objects.remove(@)
