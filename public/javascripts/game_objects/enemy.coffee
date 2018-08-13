@@ -8,7 +8,7 @@ class Enemy extends Character
     @type = 'enemy'
     @wasAttacked = false
     @scene.enemies.add @
-    @scene.setGrid(@tileX, @tileY, 1)
+    @scene.setGrid(@tileX, @tileY, 3)
   
   move: ->
     @wasAttacked = false
@@ -29,7 +29,7 @@ class Enemy extends Character
     else if @scene.getGrid(path[1].x, path[1].y) == 0
       @scene.setGrid(@tileX, @tileY, 0)
       @moveTo(path[1].x, path[1].y)
-      @scene.setGrid(@tileX, @tileY, 1)
+      @scene.setGrid(@tileX, @tileY, 3)
   
   attackHero: ->
     @scene.hero.defend(@attack)

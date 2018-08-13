@@ -4,8 +4,8 @@ class Inventory extends Phaser.Structs.List
   constructor: (scene)->
     super()
     @scene = scene
-    @baseY = 480 - @scene.tileSizeHalf
-    @baseX = @scene.tileSize + @scene.tileSizeHalf
+    @baseY = 15 * @scene.tileSize + @scene.tileSizeHalf
+    @baseX = 34 * @scene.tileSize + @scene.tileSizeHalf
     
     self = @
     @scene.input.on 'drag', (pointer, inventorySlot, dragX, dragY) ->
@@ -30,9 +30,9 @@ class Inventory extends Phaser.Structs.List
         @dropzone.destroy()
         @inventorySlot = null
         @dropzone = null
-    
-    @scene.add.zone(320, 240 - @scene.tileSizeHalf,
-                    640, 480 - @scene.tileSize).setDropZone()
+    w = 1160 - @scene.tileSize * 9
+    h = 580
+    @scene.add.zone(w / 2, h / 2, w, h).setDropZone()
     
     for name in [1..4]
       @add(new InventorySlot(@, @length))
@@ -92,7 +92,8 @@ class Inventory extends Phaser.Structs.List
       y: @scene.hero.tileY + pos.y
     }
     
-    if @scene.getGrid(target.x,target.y) == 0 ||
+    tile = @scene.getGrid(target.x,target.y)
+    if tile == 0 || tile != 1 &&
       @scene.getItemAtXY(target.x,target.y).category == @scene.input.dropzone.category
         @scene.input.dropzone.available = true
         @scene.input.dropzone.setTint(0x00ff00)

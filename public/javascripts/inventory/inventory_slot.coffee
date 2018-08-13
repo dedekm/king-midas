@@ -1,16 +1,16 @@
-class InventorySlot extends Phaser.GameObjects.Image
+class InventorySlot extends Phaser.GameObjects.Zone
   constructor: (inventory, position) ->
     scene = inventory.scene
     x = inventory.baseX + position * scene.tileSize
     y = inventory.baseY
     
-    super(scene, x, y, 'zone')
-    @scene.children.add(@)
+    super(scene, x, y, scene.tileSize, scene.tileSize)
     
     @inventory = inventory
     @position = position
     @list = []
-    @text = @inventory.scene.add.text(@x, @y, 0)
+    @text = @inventory.scene.add.text @x - @scene.tileSizeHalf / 2,
+                                      @y + @scene.tileSize, 0
     @value = 0
     @amount = 0
   

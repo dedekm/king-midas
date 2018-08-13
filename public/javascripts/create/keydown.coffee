@@ -18,7 +18,7 @@ module.exports = (event) ->
     else
       return
   
-  unless @scene.getTileAtXY(newPos.x, newPos.y, true).index == 2
+  unless @scene.getGrid(newPos.x, newPos.y) == 1
     for enemy in @scene.enemies.list
       enemy.move()
     

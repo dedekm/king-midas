@@ -48,7 +48,7 @@ module.exports = ->
     for i in [0..amount - 1]
       custom.addItem new klass(@scene, 0, 0, key, frame)
       
-  @tileSize = 32
+  @tileSize = 29
   @tileSizeHalf = @tileSize / 2
   
   buildMap(@)
@@ -57,7 +57,7 @@ module.exports = ->
   @enemies = new Phaser.Structs.List()
   @inventory = new Inventory(@)
   
-  @hero = @add.custom(Hero, 1, 1, 'clown')
+  @hero = @add.custom(Hero, 5, 6, 'clown')
   @hero.attack = 50
   @hero.defense = 10
   

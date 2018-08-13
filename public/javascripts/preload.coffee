@@ -9,7 +9,7 @@ module.exports = ->
   @load.image('melon', phaserURL + '/sprites/melon.png')
   @load.image('ufo', phaserURL + '/sprites/ufo.png')
   @load.image('zone', phaserURL + '/sprites/32x32.png')
-  @load.image('tiles', phaserURL + '/tilemaps/tiles/drawtiles-spaced.png')
+  @load.image('tiles', '/images/tileset.png')
   @load.tilemapCSV('map', '/tilemaps/grid.csv')
   
   # @load.json('config', 'config.json');

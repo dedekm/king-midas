@@ -12,7 +12,7 @@ class Item extends Object
 
   init: () ->
     @list = [@]
-    @scene.setGrid(@tileX, @tileY, 1)
+    @scene.setGrid(@tileX, @tileY, 2)
     return @
     
   addItem: (item) ->

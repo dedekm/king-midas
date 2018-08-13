@@ -6,8 +6,8 @@ CustomPlugin = require './plugin.coffee'
 
 config =
   type: Phaser.AUTO
-  width: 640
-  height: 480
+  width: 1160
+  height: 580
   pixelArt: true
   plugins:
     global: [
