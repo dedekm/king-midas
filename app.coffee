@@ -25,8 +25,8 @@ app.use sassMiddleware(
 )
 
 browserify.settings('transform', [coffeeify])
-app.use minify()
-app.get('/base.js', browserify('./public/javascripts/base.coffee'));
+# app.use minify()
+app.get('/base.js', browserify('./public/javascripts/base.coffee'))
 app.use express.static(path.join(__dirname, 'public'))
 
 app.use '/', indexRouter
