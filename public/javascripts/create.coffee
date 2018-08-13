@@ -48,6 +48,9 @@ module.exports = ->
     for i in [0..amount - 1]
       custom.addItem new klass(@scene, 0, 0, key, frame)
       
+  @add.item = (x, y, key) ->
+    @custom(Item, x, y, key)
+
   @tileSize = 29
   @tileSizeHalf = @tileSize / 2
   
@@ -69,17 +72,9 @@ module.exports = ->
   enemy.attack = 15
   enemy.defense = 5
   
-  @add.custom(Item, 5, 1, 'ball')
-  @add.custom(Item, 5, 3, 'ball')
-  @add.custom(Item, 6, 3, 'green_ball')
-  @add.custom(Item, 5, 8, 'eggplant')
-  @add.custom(Item, 7, 3, 'eggplant')
-  @add.custom(Gold, 2, 4, 20)
-  @add.custom(Gold, 3, 4, 30)
-  @add.custom(Gold, 4, 4, 20)
-  @add.custom(Gold, 5, 4, 50)
+  @add.item(7, 8, 'sword1')
+  @add.item(10, 10, 'gold1')
 
-  @add.customGroup(Item, 8, 3, 'melon', null, 3)
-  @add.customGroup(Item, 9, 3, 'green_ball', null, 4)
+  @add.customGroup(Item, 12, 3, 'axe1', null, 2)
   
   @input.keyboard.on 'keydown', keydown

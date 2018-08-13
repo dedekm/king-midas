@@ -2,7 +2,7 @@ Item = require './item.coffee'
 
 class Gold extends Item
   constructor: (scene, x, y, amount) ->
-    super scene, x, y, 'coin'
+    super scene, x, y, 'gold1'
     
     @category = 'gold'
     @value = amount

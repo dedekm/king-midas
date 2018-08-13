@@ -33,6 +33,9 @@ class Inventory extends Phaser.Structs.List
     w = 1160 - @scene.tileSize * 9
     h = 580
     @scene.add.zone(w / 2, h / 2, w, h).setDropZone()
+    # graphics = @scene.add.graphics();
+    # graphics.lineStyle(2, 0xffff00);
+    # graphics.strokeRect(zone.x + zone.input.hitArea.x, zone.y + zone.input.hitArea.y, zone.input.hitArea.width, zone.input.hitArea.height);
     
     for name in [1..4]
       @add(new InventorySlot(@, @length))
