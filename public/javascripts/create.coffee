@@ -42,6 +42,11 @@ module.exports = ->
     
   @setGrid = (x, y, value) ->
     @grid[y][x] = value
+  
+  @add.customGroup = (klass, x, y, key, frame, amount) ->
+    custom = @custom(Item, x, y, key, frame)
+    for i in [0..amount - 1]
+      custom.addItem new klass(@scene, 0, 0, key, frame)
       
   @tileSize = 32
   @tileSizeHalf = @tileSize / 2
@@ -72,8 +77,8 @@ module.exports = ->
   @add.custom(Gold, 2, 4, 20)
   @add.custom(Gold, 3, 4, 30)
   @add.custom(Gold, 4, 4, 20)
-  
-  grouped = @add.custom(Item, 8, 3, 'melon')
-  grouped.addItem new Item(@, 0, 0, 'melon')
+
+  @add.customGroup(Item, 8, 3, 'melon', null, 3)
+  @add.customGroup(Item, 9, 3, 'green_ball', null, 4)
   
   @input.keyboard.on 'keydown', keydown
