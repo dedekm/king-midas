@@ -9,4 +9,7 @@ module.exports = ->
   @load.image('tiles', '/images/tileset.png')
   @load.tilemapCSV('map', '/tilemaps/grid.csv')
   
-  # @load.json('config', 'config.json');
+  help = document.createElement('div')
+  help.classList.add('help')
+  help.innerHTML+='WSAD = move / drag with mouse = drop items from inventory' 
+  document.body.appendChild(help)

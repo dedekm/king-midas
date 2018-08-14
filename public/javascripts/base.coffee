@@ -6,6 +6,9 @@ CustomPlugin = require './plugin.coffee'
 
 config =
   type: Phaser.AUTO
+  title: 'King Midas'
+  url: 'https://ldjam.com/events/ludum-dare/42/king-midas'
+  version: '0.1'
   width: 1160
   height: 580
   pixelArt: true
