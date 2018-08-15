@@ -6,18 +6,18 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
-    "browserify-middleware": "^8.1.0",
+    "browserify-middleware": "^8.1.1",
     "coffeeify": "^3.0.1",
-    "coffeescript": "^2.2.4",
+    "coffeescript": "^2.3.1",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
     "easystarjs": "^0.4.3",
-    "express": "~4.16.0",
+    "express": "~4.16.3",
     "express-minify": "^1.0.0",
     "http-errors": "~1.6.2",
     "morgan": "~1.9.0",
     "node-sass-middleware": "0.11.0",
-    "phaser": "^3.3.0",
-    "pug": "2.0.0-beta11"
+    "phaser": "^3.11.0",
+    "pug": "2.0.3"
   }
 }

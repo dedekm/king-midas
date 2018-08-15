@@ -2,19 +2,16 @@ body {
   padding: 0;
   font: 12px Verdana, sans-serif;
   background: #666;
-  color: #ddd;
-}
+  color: #ddd; }
 
 canvas {
   margin-top: 0.5rem;
   display: block;
-  margin: 0 auto;
-}
+  margin: 0 auto; }
 
 .help {
   margin-top: 1rem;
   width: 100%;
-  text-align: center;
-}
+  text-align: center; }
 
 /*# sourceMappingURL=style.css.map */

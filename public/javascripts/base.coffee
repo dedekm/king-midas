@@ -1,3 +1,5 @@
+Phaser = require 'phaser'
+
 preload = require './preload.coffee'
 create = require './create.coffee'
 update = require './update.coffee'
